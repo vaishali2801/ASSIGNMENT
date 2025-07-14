@@ -3,86 +3,111 @@
 #include <string>
 using namespace std;
 
-template <class T>
-class Student {
-private:
-    T id;
+class Std {
+public:
+    int id;
     string name;
 
-public:
-    // Constructor
-    Student(T i, string n) {
-        id = i;
-        name = n;
+    Std(int id, string name) {
+        this->id = id;
+        this->name = name;
     }
 
-    // Display method
-    void display() const {
-        cout << "ID: " << id << ", Name: " << name << endl;
-    }
-
-    // Getter for ID
-    T getId() const {
+    int getId() {  
         return id;
     }
 };
 
-// Add a student to vector
-template <class T>
-void AddStudent(vector<Student<T>>& list, T id, string name) {
-    Student<T> s(id, name);
-    list.push_back(s);
-    cout << "Student added successfully.\n";
-}
+class List {
+public:
+    vector<Std> list;
 
-// Display all students
-template <class T>
-void DisplayStudents(const vector<Student<T>>& list) {
-    cout << "All Students:\n";
-    for (const auto& s : list) {
-        s.display();
+    List(){}
+
+    void AddStudent(int id, string name) 
+    {
+        Std s(id, name);
+        list.push_back(s);
+        cout << "Student added successfully...!" << endl;
     }
-}
 
-// Remove student by ID
-template <class T>
-void RemoveStudentById(vector<Student<T>>& list, T id) {
-    for (auto it = list.begin(); it != list.end(); ++it) {
-        if (it->getId() == id) {
-            list.erase(it);
-            cout << "Student with ID " << id << " removed.\n";
-            return;
+    void SearchStudentById(int id) 
+    {
+        for (Std &e : this->list) {
+            if (e.getId() == id) {
+                cout << e.id << " | " << e.name << endl;
+            }
         }
     }
-    cout << "Student not found.\n";
-}
 
-// Search student by ID
-template <class T>
-void SearchStudentById(const vector<Student<T>>& list, T id) {
-    for (const auto& s : list) {
-        if (s.getId() == id) {
-            cout << "Student found: ";
-            s.display();
-            return;
+    void RemoveStudent(int id) {
+       
+        for (int i = 0; i < list.size(); i++) 
+        { 
+            if (list[i].id == id) {
+                list.erase(list.begin() + i);
+                cout << "Student with ID " << id << " removed successfully..!" << endl;
+            }
         }
     }
-    cout << "Student with ID " << id << " not found.\n";
-}
 
-// Main Function
+    void DisplayStudents() {
+        if (list.empty()) 
+        {
+            cout << "No students to display." << endl;
+        } 
+        else{
+            cout << "All Students: " << endl;
+            for (Std &e : list) {
+                cout << "ID : " << e.id << " , Name: " << e.name << endl;
+            }
+        }
+    }
+};
 int main() {
-    vector<Student<int>> studentList;
+    int id;
+    string name;
+    int choice;
+    List list;
 
-    AddStudent(studentList, 1, "Vaishali");
-    AddStudent(studentList, 2, "bhoomi");
+    while (choice != 0) {
+        cout << "====================================" << endl;
+        cout << "Press 1 for Add a Student." << endl;
+        cout << "Press 2 for Display Students." << endl;
+        cout << "Press 3 for Remove Student." << endl;
+        cout << "Press 4 for Search Student by ID." << endl;
+        cout << "Press 0 for Exit." << endl;
 
-    DisplayStudents(studentList);
+        cout << "Enter your choice : ";
+        cin >> choice;
 
-    SearchStudentById(studentList, 2);
-    RemoveStudentById(studentList, 1);
+        cout << "====================================" << endl;
 
-    DisplayStudents(studentList);
+        switch (choice) {
+            case 1:
+                cout << "Enter ID: ";
+                cin >> id;
+                cout << "Enter Student name: ";
+                cin >> name;
+                list.AddStudent(id, name);
+                break;
+            case 2:
+                list.DisplayStudents();
+                break;
+            case 3:
+                cout << "Enter ID: ";
+                cin >> id;
+                list.RemoveStudent(id);
+                break;
+            case 4:
+                cout << "Enter ID: ";
+                cin >> id;
+                list.SearchStudentById(id);
+                break;
+            default:
+                cout << "Invalid choice.Please Try again." << endl;
+        }
+    }
 
     return 0;
 }
