@@ -63,11 +63,13 @@ public:
     double OverdraftLimit;
 
     void checkOverdraft(double amount) {
-        if (amount > getBalance() + OverdraftLimit)
+        if (amount > getBalance() + OverdraftLimit){
             cout << "Amount exceeds overdraft limit....!!!" << endl;
-        else
+        }   
+        else{
             cout << "Overdraft OK. Proceeding with withdrawal." << endl;
         }
+    }
 };
 
 
